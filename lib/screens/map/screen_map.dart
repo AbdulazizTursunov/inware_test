@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inware_test/global_fild.dart';
+import 'package:inware_test/screens/map/search_delegate_map.dart';
 
 class NewWordMap extends StatefulWidget {
   const NewWordMap({super.key});
@@ -23,9 +24,9 @@ class _NewWordMapState extends State<NewWordMap> {
         actions: [
           IconButton(
             onPressed: () {
-              setState(() {});
+              showSearch(context: context, delegate: CustomSearchMap());
             },
-            icon: const Icon(Icons.refresh),
+            icon: const Icon(Icons.search_rounded),
           ),
         ],
         title: const Text('Map'),

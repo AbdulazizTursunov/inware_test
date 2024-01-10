@@ -1,4 +1,5 @@
 import 'package:inware_test/data/mahsulot.dart';
+import 'package:inware_test/sqlite_3/model_service/model_seervice.dart';
 import 'package:sqlite_wrapper/sqlite_wrapper.dart';
 import 'package:path/path.dart';
 
@@ -29,6 +30,7 @@ class DatabaseHelper {
   Future<void> _onCreate() async {
     List<String> sql = [];
     sql.add(Mahsulot2Service.createTable);
+    sql.add(ModelSer.createTableS);
 
     debugPrint('db creatae: $db');
     for (var query in sql) {

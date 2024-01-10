@@ -1,6 +1,5 @@
 import 'package:inware_test/data/crud_service.dart';
 import 'package:inware_test/data/db_service.dart';
-import 'package:inware_test/data/mahsulot.dart';
 
 class Product {
   static CrudService service = ModelService();

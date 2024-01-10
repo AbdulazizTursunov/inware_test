@@ -53,6 +53,12 @@ class _SetMethodState extends State<SetMethod> {
       body: Column(
         children: [
           TextField(
+            decoration: InputDecoration(
+              hintText: 'search...',
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
             onChanged: (v) {
               _searchSet(v);
               setState(() {});
@@ -87,8 +93,8 @@ class _SetMethodState extends State<SetMethod> {
                             context: context,
                             builder: (context) {
                               return AlertDialog(
-                                  title:
-                                      const Text('Mahsulot o\'chirish va tahrirlash'),
+                                  title: const Text(
+                                      'Mahsulot o\'chirish va tahrirlash'),
                                   actions: [
                                     Column(children: [
                                       //mahsulotni o'chirish
@@ -249,13 +255,13 @@ class _SetMethodState extends State<SetMethod> {
                             Navigator.of(context).pop();
                             clearController();
                           },
-                          child:const Text('Mahsulotni Qo\'shish'))
+                          child: const Text('Mahsulotni Qo\'shish'))
                     ],
                   )
                 ]);
               });
         },
-        child:const Icon(Icons.add, size: 30),
+        child: const Icon(Icons.add, size: 30),
       ),
     );
   }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:inware_test/data/mahsulot.dart';
 import 'package:inware_test/data/model/mahsulot_obekti.dart';
 import 'package:inware_test/global_fild.dart';
 import 'package:inware_test/screens/list_method/widget/text_field.dart';
+import 'package:inware_test/screens/map_method/search_delegate%20_map_method.dart';
 
 class MapMethod extends StatefulWidget {
   const MapMethod({super.key});
@@ -53,16 +53,31 @@ class _MapMethodState extends State<MapMethod> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          IconButton(
+              onPressed: () {
+                showSearch(context: context, delegate: CustomSearchMapMethod());
+              },
+              icon: const Icon(Icons.search)),
+        ],
         title: const Text('Map Method'),
         centerTitle: true,
       ),
       body: Column(
         children: [
-          TextField(
-            onChanged: (v) {
-              _searchMap(v);
-              setState(() {});
-            },
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5),
+            child: TextField(
+              decoration: InputDecoration(
+                  hintText: 'search...',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  )),
+              onChanged: (v) {
+                _searchMap(v);
+                setState(() {});
+              },
+            ),
           ),
           const SizedBox(height: 15),
           Expanded(

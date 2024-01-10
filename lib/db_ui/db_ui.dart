@@ -19,7 +19,7 @@ class _DbUiState extends State<DbUi> {
     narxController.clear();
   }
 
-  Product product = Product();
+
 
   List mahsulotObjectList = [];
 

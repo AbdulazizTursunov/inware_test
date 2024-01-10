@@ -57,9 +57,13 @@ class _MahsulotListState extends State<MahsulotList> {
                 },
               );
             },
+            decoration: InputDecoration(
+                hintText: 'search...',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                )),
             textInputAction: TextInputAction.search,
             keyboardType: TextInputType.name,
-            decoration: const InputDecoration(hintText: 'search...'),
           ),
           const SizedBox(height: 10),
           Expanded(

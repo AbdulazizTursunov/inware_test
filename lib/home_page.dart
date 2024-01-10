@@ -1,4 +1,3 @@
-import 'db_ui/db_ui.dart';
 import 'view.dart';
 
 class HomePage extends StatelessWidget {
@@ -143,6 +142,22 @@ class HomePage extends StatelessWidget {
                   );
                 },
                 child: const Text('Db Ui'),
+              ),
+            ),  const SizedBox(height: 20),
+            SizedBox(
+              width: double.infinity,
+              height: 50,
+              child: ElevatedButton(
+                style: const ButtonStyle(),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ScreensDB(),
+                    ),
+                  );
+                },
+                child: const Text('Sqlite3'),
               ),
             )
           ],

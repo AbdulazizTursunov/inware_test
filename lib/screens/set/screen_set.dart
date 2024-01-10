@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inware_test/global_fild.dart';
+import 'package:inware_test/screens/set/search_delegate_set.dart';
 
 class NewWordSet extends StatefulWidget {
   const NewWordSet({super.key});
@@ -18,9 +19,9 @@ class _NewWordSetState extends State<NewWordSet> {
         actions: [
           IconButton(
             onPressed: () {
-              setState(() {});
+            showSearch(context: context, delegate: CustomSearchSet());
             },
-            icon: const Icon(Icons.refresh),
+            icon: const Icon(Icons.search),
           ),
         ],
         title: const Text('Set'),
@@ -42,6 +43,7 @@ class _NewWordSetState extends State<NewWordSet> {
                     actions: [
                       Column(
                         children: [
+
                           //  add item
 
                           SizedBox(
