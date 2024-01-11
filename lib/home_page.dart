@@ -1,3 +1,5 @@
+import 'package:inware_test/perfect_ui/perfect_ui.dart';
+
 import 'view.dart';
 
 class HomePage extends StatelessWidget {
@@ -137,13 +139,14 @@ class HomePage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const DbUi(),
+                      builder: (context) => const PerfectUi(),
                     ),
                   );
                 },
-                child: const Text('Db Ui'),
+                child: const Text('Perfect'),
               ),
-            ),  const SizedBox(height: 20),
+            ),
+      const SizedBox(height: 20),
             SizedBox(
               width: double.infinity,
               height: 50,

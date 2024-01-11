@@ -105,8 +105,6 @@ class ModelSer extends CrudService {
     await for (final rows
         in  db.watch("SELECT * FROM $tableMahsulotSer $where", tables: [tableMahsulotSer])) {
       for (final element in rows) {
-        debugPrint('ModelSer "select" methodi ishlamadi for ichida qoldi');
-
         map[element['id']] = element;
       }
       return map;

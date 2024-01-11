@@ -13,42 +13,20 @@ class _ScreensDBState extends State<ScreensDB> {
   TextEditingController narxController = TextEditingController();
   TextEditingController nomeController = TextEditingController();
   TextEditingController categoryController = TextEditingController();
+  TextEditingController searchController = TextEditingController();
   List<MahsulotTable> objMahsulot = [];
   MahsulotTable mahsulotTable = MahsulotTable();
-  List searchItem = [];
 
-  _searchItem(String value) async{
-    List resultsearch = [];
-    if (value.isEmpty) {
-      searchItem =await MahsulotTable.obyekt.values.toList();
-    } else {
-      resultsearch = await MahsulotTable.obyekt.values
-          .toList()
-          .where((element) =>
-              element.nomi.toLowerCase().contains(value.toLowerCase()))
-          .toList();
-    }
-    setState(() {
-      searchItem = resultsearch;
-    });
-  }
-
-  _selectAllDb() {
-    objMahsulot = MahsulotTable.obyekt.values.toList();
-    setState(() {
-      objMahsulot;
-    });
-  }
-
-  _obektMahsulotTable() async {
-    MahsulotTable.obyekt = (await MahsulotTable.service.select())
-        .map((key, value) => MapEntry(key, MahsulotTable.fromJson(value)));
-    _selectAllDb();
+  _searchItem(String value) {
+    objMahsulot = MahsulotTable.obyekt.values
+        .where((element) =>
+            element.nomi.toLowerCase().contains(value.toLowerCase()))
+        .toList();
   }
 
   @override
   void initState() {
-    _obektMahsulotTable();
+    _objectMahsulotTable();
     super.initState();
   }
 
@@ -72,6 +50,7 @@ class _ScreensDBState extends State<ScreensDB> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5),
             child: TextField(
+              controller: searchController,
               decoration: InputDecoration(
                   hintText: 'search...',
                   border: OutlineInputBorder(
@@ -86,165 +65,179 @@ class _ScreensDBState extends State<ScreensDB> {
           const SizedBox(height: 15),
           Expanded(
             child: ListView.builder(
+              // itemCount: searchController.text.isEmpty? objMahsulot.length:searchItem.length,
               itemCount: objMahsulot.length,
               itemBuilder: (context, index) {
                 MahsulotTable objectMahsulot = objMahsulot[index];
-
-                return Container(
-                  padding: const EdgeInsets.all(15),
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  decoration: BoxDecoration(
-                    color: Colors.deepPurpleAccent,
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: Colors.yellow, width: 2),
-                  ),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Text(
-                            'nomi: ${objectMahsulot.nomi}',
-                            style: sttyle,
-                          ),
-                          const Spacer(),
-                          Text(
-                            'count: ${objectMahsulot.count}',
-                            style: sttyle,
-                          ),
-                        ],
+                return Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(15),
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 5),
+                      decoration: BoxDecoration(
+                        color: Colors.deepPurpleAccent,
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: Colors.yellow, width: 2),
                       ),
-                      Row(
+                      child: Column(
                         children: [
-                          Text(
-                            'category: ${objectMahsulot.category}',
-                            style: sttyle,
-                          ),
-                          const Spacer(),
-                          Text(
-                            'narxi: ${objectMahsulot.narxi}',
-                            style: sttyle,
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            'id: ${objectMahsulot.id}',
-                            style: sttyle,
-                          ),
-                          const Spacer(),
                           Row(
                             children: [
-                              IconButton(
-                                onPressed: () {
-                                  nomeController.text = objectMahsulot.nomi;
-                                  categoryController.text =
-                                      objectMahsulot.category;
-                                  narxController.text =
-                                      objectMahsulot.narxi.toString();
-                                  countController.text =
-                                      objectMahsulot.count.toString();
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return AlertDialog(
-                                        title: Center(
-                                          child: Text(
-                                            'Tahrirlash',
-                                            style: sttyle,
-                                          ),
-                                        ),
-                                        actions: [
-                                          SizedBox(
-                                            width: double.infinity,
-                                            child: Column(
-                                              children: [
-                                                Column(
-                                                  children: [
-                                                    CustomTextField(
-                                                      hintText:
-                                                          nomeController.text,
-                                                      controller:
-                                                          nomeController,
-                                                      type: TextInputType.text,
-                                                      action:
-                                                          TextInputAction.next,
-                                                    ),
-                                                    CustomTextField(
-                                                      hintText:
-                                                          categoryController
-                                                              .text,
-                                                      controller:
-                                                          categoryController,
-                                                      type: TextInputType.text,
-                                                      action:
-                                                          TextInputAction.next,
-                                                    ),
-                                                    CustomTextField(
-                                                      hintText:
-                                                          narxController.text,
-                                                      controller:
-                                                          narxController,
-                                                      type:
-                                                          TextInputType.number,
-                                                      action:
-                                                          TextInputAction.next,
-                                                    ),
-                                                    CustomTextField(
-                                                      hintText:
-                                                          countController.text,
-                                                      controller:
-                                                          countController,
-                                                      type:
-                                                          TextInputType.number,
-                                                      action:
-                                                          TextInputAction.done,
-                                                    ),
-                                                    const SizedBox(height: 20),
-                                                    ElevatedButton(
-                                                      onPressed: () async {
-                                                        onPressedTahrirlash(
-                                                          objectMahsulot,
-                                                        );
-                                                      },
-                                                      child: Text(
-                                                        'Tahrirlash',
-                                                        style: sttyle,
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                },
-                                icon: const Icon(
-                                  Icons.autorenew_outlined,
-                                  color: Colors.yellow,
-                                ),
+                              Text(
+                                'nomi: ${objectMahsulot.nomi}',
+                                style: sttyle,
                               ),
-                              IconButton(
-                                onPressed: () async {
-                                  await objectMahsulot.delete();
-                                  _selectAllDb();
-                                  setState(() {});
-                                },
-                                icon: const Icon(
-                                  Icons.delete,
-                                  color: Colors.red,
-                                ),
+                              const Spacer(),
+                              Text(
+                                'count: ${objectMahsulot.count}',
+                                style: sttyle,
                               ),
                             ],
-                          )
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                'category: ${objectMahsulot.category}',
+                                style: sttyle,
+                              ),
+                              const Spacer(),
+                              Text(
+                                'narxi: ${objectMahsulot.narxi}',
+                                style: sttyle,
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                'id: ${objectMahsulot.id}',
+                                style: sttyle,
+                              ),
+                              const Spacer(),
+                              Row(
+                                children: [
+                                  IconButton(
+                                    onPressed: () {
+                                      nomeController.text = objectMahsulot.nomi;
+                                      categoryController.text =
+                                          objectMahsulot.category;
+                                      narxController.text =
+                                          objectMahsulot.narxi.toString();
+                                      countController.text =
+                                          objectMahsulot.count.toString();
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return AlertDialog(
+                                            title: Center(
+                                              child: Text(
+                                                'Tahrirlash',
+                                                style: sttyle,
+                                              ),
+                                            ),
+                                            actions: [
+                                              SizedBox(
+                                                width: double.infinity,
+                                                child: Column(
+                                                  children: [
+                                                    Column(
+                                                      children: [
+                                                        CustomTextField(
+                                                          hintText:
+                                                              nomeController
+                                                                  .text,
+                                                          controller:
+                                                              nomeController,
+                                                          type: TextInputType
+                                                              .text,
+                                                          action:
+                                                              TextInputAction
+                                                                  .next,
+                                                        ),
+                                                        CustomTextField(
+                                                          hintText:
+                                                              categoryController
+                                                                  .text,
+                                                          controller:
+                                                              categoryController,
+                                                          type: TextInputType
+                                                              .text,
+                                                          action:
+                                                              TextInputAction
+                                                                  .next,
+                                                        ),
+                                                        CustomTextField(
+                                                          hintText:
+                                                              narxController
+                                                                  .text,
+                                                          controller:
+                                                              narxController,
+                                                          type: TextInputType
+                                                              .number,
+                                                          action:
+                                                              TextInputAction
+                                                                  .next,
+                                                        ),
+                                                        CustomTextField(
+                                                          hintText:
+                                                              countController
+                                                                  .text,
+                                                          controller:
+                                                              countController,
+                                                          type: TextInputType
+                                                              .number,
+                                                          action:
+                                                              TextInputAction
+                                                                  .done,
+                                                        ),
+                                                        const SizedBox(
+                                                            height: 20),
+                                                        ElevatedButton(
+                                                          onPressed: () async {
+                                                            onPressedTahrirlash(
+                                                              objectMahsulot,
+                                                            );
+                                                          },
+                                                          child: Text(
+                                                            'Tahrirlash',
+                                                            style: sttyle,
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    },
+                                    icon: const Icon(
+                                      Icons.autorenew_outlined,
+                                      color: Colors.yellow,
+                                    ),
+                                  ),
+                                  IconButton(
+                                    onPressed: () async {
+                                      await objectMahsulot.delete();
+                                      _selectAllDb();
+                                      setState(() {});
+                                    },
+                                    icon: const Icon(
+                                      Icons.delete,
+                                      color: Colors.red,
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
                         ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 );
               },
             ),
@@ -338,5 +331,18 @@ class _ScreensDBState extends State<ScreensDB> {
     nomeController.dispose();
     categoryController.dispose();
     super.dispose();
+  }
+
+  _selectAllDb() {
+    objMahsulot = MahsulotTable.obyekt.values.toList();
+    setState(() {
+      objMahsulot;
+    });
+  }
+
+  _objectMahsulotTable() async {
+    MahsulotTable.obyekt = (await MahsulotTable.service.select())
+        .map((key, value) => MapEntry(key, MahsulotTable.fromJson(value)));
+    _selectAllDb();
   }
 }
